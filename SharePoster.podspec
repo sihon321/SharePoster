@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = 'SharePoster'
   s.version          = '0.1.0'
-  s.summary          = 'A short description of SharePoster.'
+  s.summary          = 'SharePoster is to help users post content(image, video, url, etc..) in Share Extension'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
