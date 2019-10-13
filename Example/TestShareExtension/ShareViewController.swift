@@ -27,7 +27,7 @@ class ShareViewController: UIViewController {
     collectionView.register(UINib(nibName: "ShareCollectionViewCell", bundle: nil),
                             forCellWithReuseIdentifier: "ShareCollectionViewCell")
     
-    sharePoster = SharePoster(extensionContext?.inputItems.first)
+    sharePoster = SharePoster(extensionContext?.inputItems)
     guard let sharePoster = sharePoster else { return }
     
     sharePoster.loadData {
@@ -36,7 +36,7 @@ class ShareViewController: UIViewController {
           self.collectionView.reloadData()
         }
       }
-      
+
       self.images = sharePoster.contents
     }
   }
@@ -64,7 +64,9 @@ extension ShareViewController: UICollectionViewDataSource {
       return UICollectionViewCell()
     }
     
-    cell.updateContents(images[indexPath.row])
+    if images.isEmpty == false {
+      cell.updateContents(images[indexPath.row])
+    }
     
     return cell
   }
