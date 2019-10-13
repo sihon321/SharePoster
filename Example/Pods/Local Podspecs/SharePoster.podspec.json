@@ -1,0 +1,22 @@
+{
+  "name": "SharePoster",
+  "version": "0.1.0",
+  "summary": "A short description of SharePoster.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/sihon321/SharePoster",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "sihon321": "sihon321@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/sihon321/SharePoster.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "SharePoster/Classes/**/*"
+}

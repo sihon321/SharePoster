@@ -1,11 +1,16 @@
 use_frameworks!
 
+pod 'SwiftSoup'
+
 target 'SharePoster_Example' do
   pod 'SharePoster', :path => '../'
 
   target 'SharePoster_Tests' do
     inherit! :search_paths
 
+    target 'TestShareExtension' do
+      pod 'SharePoster', :path => '../'
     
+    end
   end
 end

@@ -1,0 +1,6 @@
+framework module SharePoster {
+  umbrella header "SharePoster-umbrella.h"
+
+  export *
+  module * { export * }
+}

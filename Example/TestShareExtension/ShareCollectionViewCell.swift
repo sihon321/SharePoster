@@ -9,10 +9,19 @@
 import UIKit
 
 class ShareCollectionViewCell: UICollectionViewCell {
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+  
+  @IBOutlet weak var imageView: UIImageView!
+  
+  override func awakeFromNib() {
+    super.awakeFromNib()
+    // Initialization code
+    
+  }
+  
+  func updateContents(_ url: URL) {
+    if let image = try? Data(contentsOf: url) {
+      imageView.image = UIImage(data: image)
     }
-
+  }
+  
 }

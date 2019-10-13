@@ -7,25 +7,74 @@
 //
 
 import UIKit
-import Social
+import SharePoster
+import MobileCoreServices
 
-class ShareViewController: SLComposeServiceViewController {
+class ShareViewController: UIViewController {
 
-    override func isContentValid() -> Bool {
-        // Do validation of contentText and/or NSExtensionContext attachments here
-        return true
-    }
-
-    override func didSelectPost() {
-        // This is called after the user selects Post. Do the upload of contentText and/or NSExtensionContext attachments.
+  @IBOutlet weak var collectionView: UICollectionView!
+  
+  var sharePoster: SharePoster? = nil
+  
+  var images = [URL]()
+  
+  override func viewDidLoad() {
+    super.viewDidLoad()
     
-        // Inform the host that we're done, so it un-blocks its UI. Note: Alternatively you could call super's -didSelectPost, which will similarly complete the extension context.
-        self.extensionContext!.completeRequest(returningItems: [], completionHandler: nil)
+    collectionView.dataSource = self
+    collectionView.delegate = self
+    
+    collectionView.register(UINib(nibName: "ShareCollectionViewCell", bundle: nil),
+                            forCellWithReuseIdentifier: "ShareCollectionViewCell")
+    
+    sharePoster = SharePoster(extensionContext?.inputItems.first)
+    guard let sharePoster = sharePoster else { return }
+    
+    sharePoster.loadData {
+      defer {
+        DispatchQueue.main.async {
+          self.collectionView.reloadData()
+        }
+      }
+      
+      self.images = sharePoster.contents
     }
+  }
+  
+  @IBAction func didTappedCancel(_ sender: Any) {
+    extensionContext?.completeRequest(returningItems: sharePoster?.inputItem,
+                                      completionHandler: nil)
+  }
+  
+}
 
-    override func configurationItems() -> [Any]! {
-        // To add configuration options via table cells at the bottom of the sheet, return an array of SLComposeSheetConfigurationItem here.
-        return []
+extension ShareViewController: UICollectionViewDelegate {
+  
+}
+
+extension ShareViewController: UICollectionViewDataSource {
+  func collectionView(_ collectionView: UICollectionView,
+                      numberOfItemsInSection section: Int) -> Int {
+    return images.count
+  }
+  
+  func collectionView(_ collectionView: UICollectionView,
+                      cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ShareCollectionViewCell", for: indexPath) as? ShareCollectionViewCell else {
+      return UICollectionViewCell()
     }
+    
+    cell.updateContents(images[indexPath.row])
+    
+    return cell
+  }
+  
+}
 
+extension ShareViewController: UICollectionViewDelegateFlowLayout {
+  func collectionView(_ collectionView: UICollectionView,
+                      layout collectionViewLayout: UICollectionViewLayout,
+                      sizeForItemAt indexPath: IndexPath) -> CGSize {
+    return CGSize(width: 250.0, height: 250.0)
+  }
 }
