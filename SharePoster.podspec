@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+Posting Content in developer.apple.com is example using SLComposeServiceViewController. This library can be used when using a custom ViewController.
                        DESC
 
   s.homepage         = 'https://github.com/sihon321/SharePoster'
