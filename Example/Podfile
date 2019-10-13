@@ -1,7 +1,5 @@
 use_frameworks!
 
-pod 'SwiftSoup'
-
 target 'SharePoster_Example' do
   pod 'SharePoster', :path => '../'
 

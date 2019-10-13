@@ -1,23 +1,16 @@
 PODS:
   - SharePoster (0.1.0)
-  - SwiftSoup (2.2.1)
 
 DEPENDENCIES:
   - SharePoster (from `../`)
-  - SwiftSoup
-
-SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
-    - SwiftSoup
 
 EXTERNAL SOURCES:
   SharePoster:
     :path: "../"
 
 SPEC CHECKSUMS:
-  SharePoster: 98fa8ee8f63a51c026c83ea9a53fac441c8094e4
-  SwiftSoup: a91d3c96ecb6f8f13005552ef60f9075aae4a7f3
+  SharePoster: 2e613fc06bea93e84b801eac41f4dde303c425ce
 
-PODFILE CHECKSUM: 9e319c7e2755a203334084f4e57664e98f3e4125
+PODFILE CHECKSUM: 0a9aedeb0af3e11b93a5d21f01b9addb38f166ab
 
 COCOAPODS: 1.7.5

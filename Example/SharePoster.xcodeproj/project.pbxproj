@@ -411,12 +411,10 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-SharePoster_Example/Pods-SharePoster_Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/SharePoster/SharePoster.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftSoup/SwiftSoup.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SharePoster.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftSoup.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
