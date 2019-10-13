@@ -10,7 +10,7 @@ import MobileCoreServices
 
 protocol Postable: class {
   
-  var inputItem: Any? { get set }
+  var inputItem: [Any]? { get set }
   
   var extensionItem: NSExtensionItem? { get set }
   
@@ -21,11 +21,7 @@ public class SharePoster: Postable {
   
   public typealias URLCompletion = (_ url: String, _ selection: String, _ title: String) -> Void
   
-  public var inputItem: Any? = nil {
-    didSet {
-      extensionItem = inputItem as? NSExtensionItem
-    }
-  }
+  public var inputItem: [Any]? = nil
   
   var extensionItem: NSExtensionItem? = nil
   
@@ -35,11 +31,12 @@ public class SharePoster: Postable {
   
   public var documents: [String] = []
   
-  public var urls: [(url: String, title: String)] = []
+  public var urls: [(url: URL, title: String)] = []
   
-  public init(_ inputItem: Any?) {
+  public init(_ inputItem: [Any]?) {
     
     self.inputItem = inputItem
+    self.extensionItem = inputItem?.first as? NSExtensionItem
     
     if let attachments = extensionItem?.attachments as? [NSItemProvider] {
       providers = attachments
@@ -145,12 +142,28 @@ public class SharePoster: Postable {
   
   public func loadAttachmentedURL(_ provider: NSItemProvider? = nil,
                                   _ type: String? = nil,
-                                  completion: @escaping (String, String) -> Void) {
+                                  completion: @escaping (URL, String) -> Void) {
     guard let provider = provider == nil ? providers.first : provider,
       let typeId = type == nil ? provider.registeredTypeIdentifiers.first : type else {
         return
     }
     
+    provider.loadItem(forTypeIdentifier: typeId) { (item, error) in
+      guard error == nil,
+        let url = item as? URL else {
+          return
+      }
+      
+      let pattern = "<title>.*?</title>"
+      if let content = try? String(contentsOf: url, encoding: .utf8),
+        let titleRange = content.range(of: pattern, options:.regularExpression) {
+        let titleHtml = content[titleRange]
+        let startIndex = titleHtml.index(titleHtml.startIndex, offsetBy: 7)
+        let endIndex = titleHtml.index(titleHtml.endIndex, offsetBy: -9)
+        let title = String(titleHtml[startIndex...endIndex])
+        
+        completion(url, title)
+      }
+    }
   }
-
 }
