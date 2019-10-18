@@ -27,11 +27,7 @@ public class SharePoster: Postable {
   
   public var providers: [NSItemProvider] = []
   
-  public var contents: [URL] = []
-  
-  public var documents: [String] = []
-  
-  public var urls: [(url: URL, title: String)] = []
+  public var contentsItem = ContentsItem()
   
   public init(_ inputItem: [Any]?) {
     
@@ -44,44 +40,44 @@ public class SharePoster: Postable {
   }
   
   public func loadData(completion: @escaping () -> Void) {
-      let group = DispatchGroup()
-      
-      for provider in self.providers {
-          for type in provider.registeredTypeIdentifiers {
-              let kUTType = (type as CFString)
-              
-              switch kUTType {
-              case kUTTypeURL:
-                  group.enter()
-                  self.loadAttachmentedURL(provider, type) { (url, title) in
-                      self.urls.append((url, title))
-                      group.leave()
-                  }
-              case kUTTypePlainText:
-                  group.enter()
-                  self.loadAttachmentedText(provider, type) { text in
-                      self.documents.append(text)
-                      group.leave()
-                  }
-              case kUTTypeImage, kUTTypeJPEG, kUTTypeGIF, kUTTypePNG, kUTTypeBMP,
-                   kUTTypeMovie, kUTTypeVideo, kUTTypeAudio, kUTTypeQuickTimeMovie,
-                   kUTTypeMPEG, kUTTypeAVIMovie, kUTTypeMP3, kUTTypeMPEG4,
-                   kUTTypeGNUZipArchive, kUTTypeZipArchive,
-                   kUTTypePDF, kUTTypeSpreadsheet, kUTTypePresentation:
-                  group.enter()
-                  self.loadAttachmentedContent(provider, type) { url in
-                      self.contents.append(url)
-                      group.leave()
-                  }
-              default:
-                  break
-              }
+    let group = DispatchGroup()
+    
+    for provider in self.providers {
+      for type in provider.registeredTypeIdentifiers {
+        let kUTType = (type as CFString)
+        
+        switch kUTType {
+        case kUTTypeURL:
+          group.enter()
+          self.loadAttachmentedURL(provider, type) { (url, title) in
+            self.contentsItem.append(.urls, data: (url, title))
+            group.leave()
           }
+        case kUTTypePlainText:
+          group.enter()
+          self.loadAttachmentedText(provider, type) { text in
+            self.contentsItem.append(.documents, data: text)
+            group.leave()
+          }
+        case kUTTypeImage, kUTTypeJPEG, kUTTypeGIF, kUTTypePNG, kUTTypeBMP,
+             kUTTypeMovie, kUTTypeVideo, kUTTypeAudio, kUTTypeQuickTimeMovie,
+             kUTTypeMPEG, kUTTypeAVIMovie, kUTTypeMP3, kUTTypeMPEG4,
+             kUTTypeGNUZipArchive, kUTTypeZipArchive,
+             kUTTypePDF, kUTTypeSpreadsheet, kUTTypePresentation:
+          group.enter()
+          self.loadAttachmentedContent(provider, type) { url in
+            self.contentsItem.append(.contents, data: url)
+            group.leave()
+          }
+        default:
+          break
+        }
       }
-      
-      group.notify(queue: .main) {
-          completion()
-      }
+    }
+    
+    group.notify(queue: .main) {
+      completion()
+    }
   }
   
   public func loadAttachmentedContents(completion: @escaping ([URL]) -> Void) {
