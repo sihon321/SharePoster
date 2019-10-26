@@ -62,7 +62,7 @@ public class SharePoster: Postable {
             self.contentsItem.append(.documents, data: text)
             group.leave()
           }
-        case kUTTypeImage, kUTTypeJPEG, kUTTypeGIF, kUTTypePNG, kUTTypeBMP,
+        case kUTTypeJPEG, kUTTypeGIF, kUTTypePNG, kUTTypeBMP,
              kUTTypeMovie, kUTTypeVideo, kUTTypeAudio, kUTTypeQuickTimeMovie,
              kUTTypeMPEG, kUTTypeAVIMovie, kUTTypeMP3, kUTTypeMPEG4,
              kUTTypeGNUZipArchive, kUTTypeZipArchive,
