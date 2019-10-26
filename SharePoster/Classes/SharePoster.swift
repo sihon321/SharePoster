@@ -36,7 +36,7 @@ public class SharePoster: Postable {
     self.inputItem = inputItem
     self.extensionItem = inputItem?.first as? NSExtensionItem
     
-    if let attachments = extensionItem?.attachments as? [NSItemProvider] {
+    if let attachments = extensionItem?.attachments {
       providers = attachments
     }
   }
