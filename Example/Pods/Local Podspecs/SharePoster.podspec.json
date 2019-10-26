@@ -15,8 +15,10 @@
     "git": "https://github.com/sihon321/SharePoster.git",
     "tag": "0.1.0"
   },
+  "swift_versions": "4.2",
   "platforms": {
     "ios": "8.0"
   },
-  "source_files": "SharePoster/Classes/**/*"
+  "source_files": "SharePoster/Classes/**/*",
+  "swift_version": "4.2"
 }

@@ -8,7 +8,6 @@
 
 import UIKit
 import SharePoster
-import MobileCoreServices
 
 class ShareViewController: UIViewController {
 
@@ -37,7 +36,7 @@ class ShareViewController: UIViewController {
         }
       }
 
-      self.images = sharePoster.contents
+      self.images = sharePoster.contentsItem.getContents()
     }
   }
   

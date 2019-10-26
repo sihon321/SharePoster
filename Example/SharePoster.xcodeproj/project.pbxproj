@@ -77,7 +77,6 @@
 		A8355CD8234CF4FE002B2BFB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A84AF42B2353117D001D0E2E /* ShareCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareCollectionViewCell.swift; sourceTree = "<group>"; };
 		A84AF42C2353117D001D0E2E /* ShareCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShareCollectionViewCell.xib; sourceTree = "<group>"; };
-		A8FE6941234D01960079DE8A /* URLPreProcessor.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = URLPreProcessor.js; sourceTree = "<group>"; };
 		A95E460C0931D3E7797B57B9 /* Pods_SharePoster_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SharePoster_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED4834105870AF8111771F35 /* Pods-SharePoster_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SharePoster_Example.release.xcconfig"; path = "Target Support Files/Pods-SharePoster_Example/Pods-SharePoster_Example.release.xcconfig"; sourceTree = "<group>"; };
 		EED9AD182D321F19F7708496 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
@@ -215,7 +214,6 @@
 				A8355CD3234CF4FE002B2BFB /* ShareViewController.swift */,
 				A8355CD5234CF4FE002B2BFB /* MainInterface.storyboard */,
 				A8355CD8234CF4FE002B2BFB /* Info.plist */,
-				A8FE6941234D01960079DE8A /* URLPreProcessor.js */,
 				A84AF42B2353117D001D0E2E /* ShareCollectionViewCell.swift */,
 				A84AF42C2353117D001D0E2E /* ShareCollectionViewCell.xib */,
 			);

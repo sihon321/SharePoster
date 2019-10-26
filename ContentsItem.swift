@@ -58,4 +58,16 @@ public struct ContentsItem {
       break
     }
   }
+  
+  public func getContents() -> [URL] {
+    return contents
+  }
+  
+  public func getDocuments() -> [String] {
+    return documents
+  }
+  
+  public func getURLs() -> [(URL, String)] {
+    return urls
+  }
 }

@@ -15,11 +15,13 @@ protocol Postable: class {
   var extensionItem: NSExtensionItem? { get set }
   
   var providers: [NSItemProvider] { get set }
+  
+  var contentsItem: ContentsItem { get set }
 }
 
 public class SharePoster: Postable {
   
-  public typealias URLCompletion = (_ url: String, _ selection: String, _ title: String) -> Void
+  public typealias URLCompletion = (_ url: URL, _ title: String) -> Void
   
   public var inputItem: [Any]? = nil
   
@@ -39,13 +41,14 @@ public class SharePoster: Postable {
     }
   }
   
-  public func loadData(completion: @escaping () -> Void) {
+  public func loadData(uType: CFString? = nil, completion: @escaping () -> Void) {
     let group = DispatchGroup()
     
     for provider in self.providers {
       for type in provider.registeredTypeIdentifiers {
-        let kUTType = (type as CFString)
+        let kUTType = uType == nil ? (type as CFString) : uType
         
+        print("UTType: \(kUTType.debugDescription)")
         switch kUTType {
         case kUTTypeURL:
           group.enter()
@@ -63,7 +66,8 @@ public class SharePoster: Postable {
              kUTTypeMovie, kUTTypeVideo, kUTTypeAudio, kUTTypeQuickTimeMovie,
              kUTTypeMPEG, kUTTypeAVIMovie, kUTTypeMP3, kUTTypeMPEG4,
              kUTTypeGNUZipArchive, kUTTypeZipArchive,
-             kUTTypePDF, kUTTypeSpreadsheet, kUTTypePresentation:
+             kUTTypePDF, kUTTypeSpreadsheet, kUTTypePresentation,
+             kUTType:
           group.enter()
           self.loadAttachmentedContent(provider, type) { url in
             self.contentsItem.append(.contents, data: url)
@@ -138,7 +142,7 @@ public class SharePoster: Postable {
   
   public func loadAttachmentedURL(_ provider: NSItemProvider? = nil,
                                   _ type: String? = nil,
-                                  completion: @escaping (URL, String) -> Void) {
+                                  completion: @escaping URLCompletion) {
     guard let provider = provider == nil ? providers.first : provider,
       let typeId = type == nil ? provider.registeredTypeIdentifiers.first : type else {
         return
