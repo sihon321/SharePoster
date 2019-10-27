@@ -51,24 +51,6 @@ override func didSelectPost() {
       self.images = sharePoster.contentsItem.getContents()
   }
 }
-
-...
-
-  func collectionView(_ collectionView: UICollectionView,
-                      cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ShareCollectionViewCell", 
-                                                        for: indexPath) as? ShareCollectionViewCell else {
-      return UICollectionViewCell()
-    }
-    
-    if images.isEmpty == false {
-      cell.updateContents(images[indexPath.row])
-    }
-    
-    return cell
-  }
-  
-}
 ```
 
 ContentsItem.swift
