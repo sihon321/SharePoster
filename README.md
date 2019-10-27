@@ -38,7 +38,7 @@ it, simply add the following line to your Podfile:
 
 - SharePoster
 ```Swift
-override func didSelectPost() {
+override func viewDidLoad() {
   sharePoster = SharePoster(extensionContext?.inputItems)
   
   sharePoster.loadData {
