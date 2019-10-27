@@ -49,7 +49,7 @@ override func didSelectPost() {
       }
 
       self.images = sharePoster.contentsItem.getContents()
-    }
+  }
 }
 
 ...
