@@ -1,5 +1,7 @@
-use_frameworks!
+platform :ios, '9.3'
 
+use_frameworks!
+  
 target 'SharePoster_Example' do
   pod 'SharePoster', :path => '../'
 
