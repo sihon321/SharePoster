@@ -62,12 +62,15 @@ public class SharePoster: Postable {
             self.contentsItem.append(.documents, data: text)
             group.leave()
           }
-        case kUTTypeJPEG, kUTTypeGIF, kUTTypePNG, kUTTypeBMP,
-             kUTTypeMovie, kUTTypeVideo, kUTTypeAudio, kUTTypeQuickTimeMovie,
-             kUTTypeMPEG, kUTTypeAVIMovie, kUTTypeMP3, kUTTypeMPEG4,
+        case kUTTypeJPEG, kUTTypeJPEG2000, kUTTypePICT,
+             kUTTypeGIF, kUTTypeTIFF, kUTTypeGIF, kUTTypePNG, kUTTypeBMP,
+
+             kUTTypeVideo, kUTTypeQuickTimeMovie, kUTTypeMPEG,
+             kUTTypeMPEG2Video, kUTTypeAVIMovie, kUTTypeMPEG4,
+             kUTTypeAudio, kUTTypeMPEG4Audio, kUTTypeMP3,
+             
              kUTTypeGNUZipArchive, kUTTypeZipArchive,
-             kUTTypePDF, kUTTypeSpreadsheet, kUTTypePresentation,
-             kUTType:
+             kUTTypePDF, kUTTypeSpreadsheet, kUTTypePresentation:
           group.enter()
           self.loadAttachmentedContent(provider, type) { url in
             self.contentsItem.append(.contents, data: url)

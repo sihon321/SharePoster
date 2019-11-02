@@ -1,6 +1,6 @@
 {
   "name": "SharePoster",
-  "version": "0.2.0",
+  "version": "0.4.0",
   "summary": "SharePoster is to help users post content(image, video, url, etc..) in Share Extension",
   "description": "Posting Content in developer.apple.com is example using SLComposeServiceViewController. This library can be used when using a custom ViewController.",
   "homepage": "https://github.com/sihon321/SharePoster",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/sihon321/SharePoster.git",
-    "tag": "0.2.0"
+    "tag": "0.4.0"
   },
   "swift_versions": "4.2",
   "platforms": {

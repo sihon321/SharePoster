@@ -59,7 +59,8 @@ extension ShareViewController: UICollectionViewDataSource {
   
   func collectionView(_ collectionView: UICollectionView,
                       cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ShareCollectionViewCell", for: indexPath) as? ShareCollectionViewCell else {
+    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ShareCollectionViewCell",
+                                                        for: indexPath) as? ShareCollectionViewCell else {
       return UICollectionViewCell()
     }
     
