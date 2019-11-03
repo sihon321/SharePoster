@@ -20,6 +20,8 @@ it, simply add the following line to your Podfile:
  pod 'SharePoster'
 ```
 
+## Usage
+
 - An example implementation of didSelectPost
 ```Objective-C
 - (void)didSelectPost {
