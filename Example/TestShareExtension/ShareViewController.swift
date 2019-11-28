@@ -50,10 +50,6 @@ class ShareViewController: UIViewController {
   
 }
 
-extension ShareViewController: UICollectionViewDelegate {
-  
-}
-
 extension ShareViewController: UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView,
                       numberOfItemsInSection section: Int) -> Int {
