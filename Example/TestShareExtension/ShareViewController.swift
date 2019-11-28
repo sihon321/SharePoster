@@ -29,14 +29,17 @@ class ShareViewController: UIViewController {
     sharePoster = SharePoster(extensionContext?.inputItems)
     guard let sharePoster = sharePoster else { return }
     
-    sharePoster.loadData {
-      defer {
-        DispatchQueue.main.async {
-          self.collectionView.reloadData()
-        }
+    sharePoster.loadData { error in
+      guard error == nil else {
+        debugPrint(error.debugDescription)
+        return
       }
-
+      
       self.images = sharePoster.contentsItem.getContents()
+      
+      DispatchQueue.main.async {
+        self.collectionView.reloadData()
+      }
     }
   }
   

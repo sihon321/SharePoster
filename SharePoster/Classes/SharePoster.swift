@@ -21,7 +21,7 @@ protocol Postable: class {
 
 public class SharePoster: Postable {
   
-  public typealias URLCompletion = (_ url: URL, _ title: String) -> Void
+  public typealias URLCompletion = (_ url: URL?, _ title: String?, _ error: Error?) -> Void
   
   public var inputItem: [Any]? = nil
   
@@ -41,25 +41,37 @@ public class SharePoster: Postable {
     }
   }
   
-  public func loadData(uType: CFString? = nil, completion: @escaping () -> Void) {
+  public func loadData(uType: CFString? = nil,
+                       completion: @escaping (Error?) -> Void) {
     let group = DispatchGroup()
+    var error: Error? = nil
     
     for provider in self.providers {
       for type in provider.registeredTypeIdentifiers {
         let kUTType = uType == nil ? (type as CFString) : uType
         
-        print("UTType: \(kUTType.debugDescription)")
+        debugPrint("UTType: \(kUTType.debugDescription)")
+        
         switch kUTType {
         case kUTTypeURL:
           group.enter()
-          self.loadAttachmentedURL(provider, type) { (url, title) in
-            self.contentsItem.append(.urls, data: (url, title))
+          loadAttachmentedURL(provider, type) { [weak self] url, title, contentError in
+            if contentError == nil {
+              error = contentError
+            } else {
+              self?.contentsItem.append(.urls, data: (url, title))
+            }
+            
             group.leave()
           }
         case kUTTypePlainText:
           group.enter()
-          self.loadAttachmentedText(provider, type) { text in
-            self.contentsItem.append(.documents, data: text)
+          loadAttachmentedText(provider, type) { [weak self] text, contentError in
+            if contentError == nil {
+              error = contentError
+            } else {
+              self?.contentsItem.append(.documents, data: text)
+            }
             group.leave()
           }
         case kUTTypeJPEG, kUTTypeJPEG2000, kUTTypePICT,
@@ -72,8 +84,12 @@ public class SharePoster: Postable {
              kUTTypeGNUZipArchive, kUTTypeZipArchive,
              kUTTypePDF, kUTTypeSpreadsheet, kUTTypePresentation:
           group.enter()
-          self.loadAttachmentedContent(provider, type) { url in
-            self.contentsItem.append(.contents, data: url)
+          loadAttachmentedContent(provider, type) { [weak self] url, contentError in
+            if contentError != nil {
+              error = contentError
+            } else {
+              self?.contentsItem.append(.contents, data: url)
+            }
             group.leave()
           }
         default:
@@ -83,31 +99,38 @@ public class SharePoster: Postable {
     }
     
     group.notify(queue: .main) {
-      completion()
+      completion(error)
     }
   }
   
-  public func loadAttachmentedContents(completion: @escaping ([URL]) -> Void) {
+  public func loadAttachmentedContents(completion: @escaping ([URL]?, Error?) -> Void) {
     var urls: [URL] = []
     let group = DispatchGroup()
     let queue = DispatchQueue(label: "SharePoster")
     
     queue.async(group: group) {
       for provider in self.providers {
-        self.loadAttachmentedContent(provider) { url in
+        self.loadAttachmentedContent(provider) { url, error in
+          guard error == nil, let url = url else {
+              group.notify(queue: .main) {
+                completion(nil, error)
+              }
+              return
+          }
+          
           urls.append(url)
         }
       }
     }
     
     group.notify(queue: .main) {
-      completion(urls)
+      completion(urls, nil)
     }
   }
   
   public func loadAttachmentedContent(_ provider: NSItemProvider? = nil,
                                       _ type: String? = nil,
-                                      completion: @escaping (URL) -> Void) {
+                                      completion: @escaping (URL?, Error?) -> Void) {
     guard let provider = provider == nil ? providers.first : provider,
       let typeId = type == nil ? provider.registeredTypeIdentifiers.first : type else {
         return
@@ -115,18 +138,18 @@ public class SharePoster: Postable {
     
     provider.loadItem(forTypeIdentifier: typeId,
                       options: nil) { (item, error) in
-                        guard error == nil,
-                          let url = item as? URL else {
+                        guard error == nil, let url = item as? URL else {
+                            completion(nil, error)
                             return
                         }
                         
-                        completion(url)
+                        completion(url, nil)
     }
   }
   
   public func loadAttachmentedText(_ provider: NSItemProvider? = nil,
                                    _ type: String? = nil,
-                                   completion: @escaping (String) -> Void) {
+                                   completion: @escaping (String?, Error?) -> Void) {
     guard let provider = provider == nil ? providers.first : provider,
       let typeId = type == nil ? provider.registeredTypeIdentifiers.first : type else {
         return
@@ -134,12 +157,12 @@ public class SharePoster: Postable {
     
     provider.loadItem(forTypeIdentifier: typeId,
                       options: nil) { (item, error) in
-                        guard error == nil,
-                          let text = item as? String else {
-                            return
+                        guard error == nil, let text = item as? String else {
+                          completion(nil, error)
+                          return
                         }
                         
-                        completion(text)
+                        completion(text, nil)
     }
   }
   
@@ -152,9 +175,9 @@ public class SharePoster: Postable {
     }
     
     provider.loadItem(forTypeIdentifier: typeId) { (item, error) in
-      guard error == nil,
-        let url = item as? URL else {
-          return
+      guard error == nil, let url = item as? URL else {
+        completion(nil, nil, error)
+        return
       }
       
       let pattern = "<title>.*?</title>"
@@ -165,7 +188,7 @@ public class SharePoster: Postable {
         let endIndex = titleHtml.index(titleHtml.endIndex, offsetBy: -9)
         let title = String(titleHtml[startIndex...endIndex])
         
-        completion(url, title)
+        completion(url, title, nil)
       }
     }
   }

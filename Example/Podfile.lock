@@ -1,5 +1,5 @@
 PODS:
-  - SharePoster (0.4.0)
+  - SharePoster (0.5.0)
 
 DEPENDENCIES:
   - SharePoster (from `../`)
@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  SharePoster: 8cbe93b75cb27f6d0b023970cc0030cfac00866f
+  SharePoster: 05b1ace5a42bfdc133d386cf0423c49e7fe126c3
 
 PODFILE CHECKSUM: f2ed2a9132123feba1f937ae1557fcc240fbd478
 

@@ -40,7 +40,7 @@ public struct ContentsItem {
     }
   }
   
-  public mutating func append(_ type: ContentsType, data: Any) {
+  public mutating func append(_ type: ContentsType, data: Any?) {
     switch type {
     case .contents:
       if let content = data as? URL {
